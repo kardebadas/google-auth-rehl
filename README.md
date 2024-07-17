@@ -70,11 +70,11 @@ This guide explains how to create and apply an SELinux policy module to allow `s
     require {
         type user_home_dir_t;
         type sshd_t;
-        class file { create open read write setattr unlink rename };
+        class file { create open read write setattr unlink rename getattr };
     }
 
     #============= sshd_t ==============
-    allow sshd_t user_home_dir_t:file { create open read write setattr unlink rename };
+    allow sshd_t user_home_dir_t:file { create open read write setattr unlink rename getattr };
     ```
 
 3. **Compile and install the module**:
