@@ -50,13 +50,42 @@ sudo -u USERNAME google-authenticator
 
 Ensure the permissions and SELinux contexts are correct:
 
-```bash
-sudo chown USERNAME:USERNAME /home/USERNAME/.google_authenticator
-sudo chmod 600 /home/USERNAME/.google_authenticator
-sudo restorecon -R -v /home/USERNAME
-```
+# SELinux Policy Module for SSHD
 
-**Note:** Replace `USERNAME` with the actual username you are configuring.
+This guide explains how to create and apply an SELinux policy module to allow `sshd` to perform necessary file operations in the user's home directory.
+
+## Steps
+
+1. **Create the policy file**:
+
+    ```bash
+    sudo nano /tmp/local.te
+    ```
+
+2. **Add the following content to `local.te`**:
+
+    ```plaintext
+    module local 1.0;
+
+    require {
+        type user_home_dir_t;
+        type sshd_t;
+        class file { create open read write setattr unlink rename };
+    }
+
+    #============= sshd_t ==============
+    allow sshd_t user_home_dir_t:file { create open read write setattr unlink rename };
+    ```
+
+3. **Compile and install the module**:
+
+    ```bash
+    checkmodule -M -m -o /tmp/local.mod /tmp/local.te
+    semodule_package -o /tmp/local.pp -m /tmp/local.mod
+    sudo semodule -i /tmp/local.pp
+    ```
+
+This will create and load the SELinux policy module, allowing `sshd` to create, open, read, write, set attributes, unlink, and rename files in the user's home directory.
 
 ---
 
