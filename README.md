@@ -60,7 +60,7 @@ This guide explains how to create and apply an SELinux policy module to allow `s
 1. **Create the policy file**:
 
     ```bash
-    sudo nano /tmp/local.te
+    sudo nvim /tmp/local.te
     ```
 
 2. **Add the following content to `local.te`**:
