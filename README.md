@@ -18,10 +18,6 @@ sudo dnf install google-authenticator -y
 Add the following lines to the configuration file:
 
 ```conf
-SyslogFacility AUTHPRIV
-
-GSSAPIAuthentication yes
-GSSAPICleanupCredentials no
 
 UsePAM yes
 
