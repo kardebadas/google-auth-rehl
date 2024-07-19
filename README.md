@@ -7,6 +7,7 @@ Install the necessary packages:
 
 ```bash
 sudo dnf install epel-release -y
+sudo dnf install qrencode -y
 sudo dnf install google-authenticator -y
 ```
 
